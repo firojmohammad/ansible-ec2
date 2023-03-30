@@ -1,0 +1,21 @@
+- name: Destroy EC2 instance
+  hosts: localhost
+  gather_facts: False
+  collections:
+    - amazon.aws
+  vars:
+    instance_id: "i-067ac315ce98df4d3" # Replace with your instance ID
+  tasks:
+    - name: Terminate EC2 instance
+      ec2_instance:
+        state: absent
+        instance_ids:
+          - "{{ instance_id }}"
+        region: ap-south-1 # Replace with your region
+        wait: yes
+      register: ec2_termination_result
+
+    - name: Debug EC2 termination result
+      debug:
+        var: ec2_termination_result
+
